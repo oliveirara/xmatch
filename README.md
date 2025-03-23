@@ -30,7 +30,7 @@ If all we want is to "find the nearest object in catalog 'B' (aka, counterpart) 
                    catalog_B[['ra','dec','id']],
                    radius=radius)
 ```
-`out_x` provides a table containing all entries from `catalog_A` and the corresponding counterpart -- *if any* -- from `catalog_B`.
+`out_x` provides a table containing all entries from `catalog_A` and the corresponding counterpart - *if any* - from `catalog_B`.
 
 ## Examples
 
