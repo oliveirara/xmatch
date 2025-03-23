@@ -1,2 +1,0 @@
-include versioneer.py
-include xmatch/_version.py
