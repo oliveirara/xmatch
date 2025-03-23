@@ -2,12 +2,13 @@ from cmath import exp, pi, sqrt
 import math
 import warnings
 
-from _xmatchi import xmatch
 from astropy.coordinates import Angle
-from fit import compile_interpolation_function, surface_density
 from numpy import diff, histogram
 from pandas import DataFrame, concat
 from sklearn.neighbors import NearestNeighbors
+
+from ._xmatchi import xmatch
+from .fit import compile_interpolation_function, surface_density
 
 warnings.filterwarnings(action="ignore")
 
@@ -117,6 +118,7 @@ def mle(
     if not background_radii:
         ri = rs
         ro = 2 * rs
+        # ri, ro = define_background_annulus(search_radius)
     else:
         try:
             ri, ro = background_radii

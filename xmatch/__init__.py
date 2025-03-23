@@ -7,3 +7,11 @@ pure-positional cross-matching.
 A maximum likelihood algorithm algorithm is provided in module `mle.py`, where
 an extra column is necessary to be used as likelihood's *data feature*.
 """
+
+from ._xmatchi import xmatch
+from .mle import mle
+
+__all__ = [
+    "mle",
+    "xmatch",
+]

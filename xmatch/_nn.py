@@ -3,7 +3,7 @@ import logging
 from astropy.coordinates import Angle, SkyCoord, match_coordinates_sky
 from numpy import append, arange, array_split
 
-from ._utils import parallel, stats
+from ._utils import stats
 
 
 def nn(A_coord, B_coord, parallel_process=False, nprocs=None):
@@ -22,7 +22,8 @@ def nn(A_coord, B_coord, parallel_process=False, nprocs=None):
             , array of respective pair distances
     """
     if parallel_process and nprocs > 0:
-        dview = parallel.setup(nprocs)
+        # from ._utils import parallel -> TODO
+        dview = None  # parallel.setup(nprocs) -> TODO
         if not dview:
             return None
 
