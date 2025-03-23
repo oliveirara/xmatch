@@ -1,13 +1,12 @@
-# -*- coding=utf-8 -*-
 import logging
 
-from astropy.coordinates import Angle, SkyCoord
-from astropy.coordinates import search_around_sky
+from astropy.coordinates import Angle, SkyCoord, search_around_sky
 
 from ._utils import stats
 
+
 def gc(A_coord, B_coord, radius):
-    '''
+    """
     Match catalogs by position within a radial distance
 
     Input:
@@ -21,27 +20,29 @@ def gc(A_coord, B_coord, radius):
      - separation_AB_val: separation between matched_{AB}_indexes, astropy.coordinates.Angle
 
     * All outputs (1D arrays) have the same length.
-    '''
-    assert isinstance(A_coord, SkyCoord), "Was expecting an ~astropy.coordinates.SkyCoord instance for 'A_coord'."
-    assert isinstance(B_coord, SkyCoord), "Was expecting an ~astropy.coordinates.SkyCoord instance for 'B_coord'."
+    """
+    if not isinstance(A_coord, SkyCoord):
+        raise TypeError("Was expecting an ~astropy.coordinates.SkyCoord instance for 'A_coord'.")
+    if not isinstance(B_coord, SkyCoord):
+        raise TypeError("Was expecting an ~astropy.coordinates.SkyCoord instance for 'B_coord'.")
 
     try:
-        radius = Angle(radius.arcsec, unit='arcsec')
-    except:
-        radius = Angle(radius, unit='arcsec')
-    assert isinstance(radius, Angle), "Was expecting an ~astropy.coordinates.Angle instance for 'radius'"
+        radius = Angle(radius.arcsec, unit="arcsec")
+    except AttributeError:
+        radius = Angle(radius, unit="arcsec")
+    if not isinstance(radius, Angle):
+        raise TypeError("Was expecting an ~astropy.coordinates.Angle instance for 'radius'")
 
     return _gc_serial(A_coord, B_coord, radius)
 
 
 def _gc_serial(A_coord, B_coord, radius):
-
-    logging.info("Searching B_coord {1} objects, {0} neighbors.".format(len(B_coord),len(A_coord)))
+    logging.info(f"Searching B_coord {len(B_coord)} objects, {len(A_coord)} neighbors.")
 
     match_A_gc_idx, match_B_gc_idx, match_gc_sep, _d3d = search_around_sky(A_coord, B_coord, radius)
-    assert len(match_A_gc_idx) == len(match_B_gc_idx)
+    if len(match_A_gc_idx) != len(match_B_gc_idx):
+        raise ValueError("The lengths of match_A_gc_idx and match_B_gc_idx do not match.")
 
-    _sts = stats(match_gc_sep.value)
-    logging.info("Basic stats of distances between matchings: {}".format(_sts))
+    logging.info(f"Basic stats of distances between matchings: {stats(match_gc_sep.value)}")
 
     return match_A_gc_idx, match_B_gc_idx, match_gc_sep
