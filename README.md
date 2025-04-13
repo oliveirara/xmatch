@@ -34,4 +34,4 @@ If all we want is to "find the nearest object in catalog 'B' (aka, counterpart) 
 
 ## Examples
 
-Check out `/notebooks` for some examples.
+Check out [notebooks](./notebooks/) for some examples.
